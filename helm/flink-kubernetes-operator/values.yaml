@@ -20,12 +20,12 @@
 
 # List of kubernetes namespaces to watch for FlinkDeployment changes, empty means all namespaces.
 # When enabled RBAC is only created for said namespaces, otherwise it is done for the cluster scope.
-# watchNamespaces: ["flink"]
+watchNamespaces: ["flink"]
 
 image:
-  repository: flink-kubernetes-operator
-  pullPolicy: IfNotPresent
-  tag: latest
+  repository: docker-eu-public.artifactory.swg-devops.com/hyc-qp-docker-local/scratch/tonyg/flink/flink-kubernetes-operator
+  pullPolicy: Always
+  tag: tag
   # If image digest is set then it takes precedence and the image tag will be ignored
   # digest: ""
 
@@ -194,3 +194,12 @@ operatorHealth:
 
 # Set postStart hook of the main container
 postStart: {}
+
+# Configuration for tls
+tls:
+  create: true
+  certSecret: flink-operator-cert
+  certMountPath: /opt/flink/operator-cert
+  certPasswordSecretRef:
+    name: operator-certificate-password
+    key: password
